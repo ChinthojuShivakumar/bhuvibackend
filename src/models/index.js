@@ -7,16 +7,20 @@ const config = dbConfig[env];
 
 // Create a new Sequelize instance using the database configuration for the current environment
 // const sequelize = new Sequelize(dbConfig[process.env.NODE_ENV]);
-const sequelize = new Sequelize(config.database, config.user, config.password,  {
-    host: config.host,
-    dialect: config.dialect,
-    dialectOptions: config.dialectOptions,   // ← MUST BE INCLUDED
-    define: {
-      timestamps: false,
-      freezeTableName: true
+const sequelize = new Sequelize(config.database, config.user, config.password, {
+  host: config.host,
+  dialect: config.dialect,
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: true,
     },
-    logging: false
-  });
+  }, // ← MUST BE INCLUDED
+  define: {
+    timestamps: false,
+    freezeTableName: true,
+  },
+  logging: false,
+});
 
 // Import your models
 const User = require("./User")(sequelize, Sequelize);

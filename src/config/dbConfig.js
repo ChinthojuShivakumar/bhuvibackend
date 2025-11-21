@@ -1,6 +1,6 @@
-const dotenv = require('dotenv');
-const fs = require('fs');
-const path = require('path');
+const dotenv = require("dotenv");
+const fs = require("fs");
+const path = require("path");
 
 dotenv.config();
 
@@ -9,39 +9,39 @@ const ca = fs.readFileSync(path.join(__dirname, "../../isrgrootx1.pem"));
 
 module.exports = {
   development: {
-    dialect: 'mysql',
+    dialect: "mysql",
     host: process.env.DB_HOST_DEV,
     user: process.env.DB_USER_DEV,
     password: process.env.DB_PASSWORD_DEV,
     database: process.env.DB_NAME_DEV,
     dialectOptions: {
       ssl: {
-        ca: ca
-      }
-    }
+        rejectUnauthorized: true,
+      },
+    },
   },
   test: {
-    dialect: 'mysql',
+    dialect: "mysql",
     host: process.env.DB_HOST_TEST,
     user: process.env.DB_USER_TEST,
     password: process.env.DB_PASSWORD_TEST,
     database: process.env.DB_NAME_TEST,
     dialectOptions: {
       ssl: {
-        ca: ca
-      }
-    }
+        rejectUnauthorized: true,
+      },
+    },
   },
   production: {
-    dialect: 'mysql',
+    dialect: "mysql",
     host: process.env.DB_HOST_PROD,
     user: process.env.DB_USER_PROD,
     password: process.env.DB_PASSWORD_PROD,
     database: process.env.DB_NAME_PROD,
     dialectOptions: {
       ssl: {
-        ca: ca
-      }
-    }
-  }
+        rejectUnauthorized: true,
+      },
+    },
+  },
 };
