@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Invoice</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        margin: 0;
+        padding: 28px;
+        box-sizing: border-box;
+        width: 100%; /* Use full width */
+        min-height: 842px;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .header h2 {
+        text-align: center;
+        font-weight: bold;
+        text-decoration: underline;
+        font-size: 20px;
+        margin-left: 64px;
+        flex: 1;
+      }
+      .logo {
+        width: 50px;
+        height: 50px;
+      }
+      .company-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap; /* Ensure this section adapts to screen size */
+      }
+
+      .company-details,
+      .invoice-details {
+        flex: 1;
+        min-width: 200px; /* Allow the details to take more space if needed */
+      }
+      .bill-to {
+        margin-top: 20px;
+      }
+      .bill-to h4 {
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+      table {
+        width: 100%; /* Ensure the table takes full width */
+        max-width: 100%; /* Avoid limiting the table width */
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th {
+        padding: 3px;
+        border: 1px solid #e5e7eb;
+        background-color: #4b5563;
+        color: white;
+        text-align: center;
+      }
+      td {
+        padding: 3px;
+        border: 1px solid #e5e7eb;
+        text-align: center;
+        background-color: rgba(209, 213, 219, 0.25);
+      }
+      tfoot td {
+        background-color: rgba(75, 85, 99, 0.25);
+        font-weight: 600;
+      }
+      .subtotal-row td:nth-child(5) {
+        text-align: center;
+      }
+      .amount-words {
+        margin-top: 4px;
+        font-weight: bold;
+      }
+      .payment-section {
+        margin-top: 8px;
+        padding: 5px;
+        border-top: 2px solid #e5e7eb;
+        background-color: #f9fafb;
+        border-radius: 4px;
+      }
+      .payment-section h4 {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .payment-details {
+        font-size: 12px;
+      }
+      .payment-details p {
+        margin: 2px 0;
+      }
+      .contact-section {
+        margin-top: 20px;
+      }
+      .footer {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        color: #2563eb;
+        font-weight: 600;
+        font-size: 10px;
+      }
+
+      .footer p {
+        display: flex;
+        gap: 2px;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 0;
+      }
+      .icon {
+        width: 10px;
+        height: 10px;
+        fill: currentColor;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div></div>
+      <h2>BILLING INVOICE</h2>
+      <img
+        src="http://bhuvi.ai/lovable-uploads/b9093460-2664-41d9-836b-7e9366385fa7.png"
+        alt="logo"
+        class="logo"
+      />
+    </div>
+    <section class="company-info">
+      <div class="company-details">
+        <h2 class="font-bold">Garudalytics Pvt.Ltd</h2>
+        <p>
+          1403C, 14th floor, Manjeera Trinity Corporate, KPHB Phase 3,
+          Kukatpally, Hyderabad, Telanagana 5000072
+        </p>
+        <p><b>Phone</b>: 040-45000401</p>
+        <p><b>GSTIN</b>: <%= property.company_gstin %></p>
+      </div>
+      <div class="invoice-details">
+        <p><strong>Invoice Number:</strong> <%= property.invoice_no %></p>
+        <p><strong>Date of Invoice:</strong> <%= property.invoice_date %></p>
+        <p><strong>Customer ID:</strong> <%= property.cust_unique_id %></p>
+        <p><strong>Terms:</strong> <%= property.terms %></p>
+      </div>
+    </section>
+    <section class="bill-to">
+      <h4>Bill To:</h4>
+      <p><%= property.invoice_to_name %></p>
+      <p><b>Address:</b> <%= property.invoice_to_address %></p>
+      <p>
+        <b>Kind Attn:</b> <%= property.first_name %> <%= property.last_name %>
+      </p>
+      <p><b>Tel:</b> <%= property.user_mobile %></p>
+      <p><b>Email:</b> <%= property.user_email %></p>
+    </section>
+    <table>
+      <thead>
+        <tr>
+          <th>Sl No</th>
+          <th>Property Name</th>
+          <th>HSN/SAC</th>
+          <th>Qty</th>
+          <th>Unit Price (INR)</th>
+          <th>Amount (INR)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><%= property.invoice_property_name %></td>
+          <td>-</td>
+          <td>1</td>
+          <td>₹<%= property.package_price %></td>
+          <td>₹<%= property.totalAmount %></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="subtotal-row">
+          <td colspan="4"></td>
+          <td>Sub Total:</td>
+          <td>₹<%= property.package_price %></td>
+        </tr>
+        <tr>
+          <td colspan="4"></td>
+          <td>SGST (9%):</td>
+          <td>₹<%= property.sgst %></td>
+        </tr>
+        <tr>
+          <td colspan="4"></td>
+          <td>CGST (9%):</td>
+          <td>₹<%= property.cgst %></td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="4"></td>
+          <td>Total Amount:</td>
+          <td>₹<%= property.totalAmount %></td>
+        </tr>
+        <tr class="subtotal-row">
+          <td colspan="4"></td>
+          <td>Rounded Total:</td>
+          <td>₹<%= property.roundedTotal %></td>
+        </tr>
+      </tfoot>
+    </table>
+    <p class="amount-words">
+      <strong>Amount in Words:</strong> <%= property.amountInWords %>
+    </p>
+    <section class="payment-section">
+      <h4>Payment & Company Details</h4>
+      <div class="payment-details">
+        <p><span>Payable Mode:</span> IMPS / NEFT / RTGS</p>
+        <p><span>Company Name:</span> GARUDALYTICS PVT LTD</p>
+        <p><span>Account Number:</span> 50200059336710</p>
+        <p><span>IFSC:</span> HDFC0002390</p>
+        <p><span>Branch:</span> Madeenaguda</p>
+        <p>
+          <span>Bank Address:</span> No 210 to 212, 1st Floor, Yashoda Pearl,
+          Madeenaguda, Hyderabad - 500050
+        </p>
+        <p><span>CIN No:</span> U72900TG2021PTC151467</p>
+      </div>
+    </section>
+    <section class="contact-section">
+      <p>
+        If you have any questions about this invoice, please contact:
+        info@garudalytics.com <%= property.first_name %> <%= property.last_name
+        %> <%= property.user_mobile %> <%= property.user_email %>
+      </p>
+      <i>This is a system-generated invoice</i>
+    </section>
+    <footer class="footer">
+      <p>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+          />
+        </svg>
+        info@garudalytics.com
+      </p>
+      <p>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+          />
+        </svg>
+        www.garudalytics.com
+      </p>
+      <p>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+          />
+        </svg>
+        B10-1404, My Home Avatar, Puppalaguda, Hyderabad, Telangana - 500089,
+        India
+      </p>
+      <p><strong>CIN No:</strong> U72900TG2021PTC151467</p>
+    </footer>
+  </body>
+</html>

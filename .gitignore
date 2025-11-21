@@ -1,0 +1,8 @@
+logs/*
+uploads/*
+.env
+node_modules/*
+uploads/images/*
+!uploads/images/.gitkeep
+uploads/documents/*
+!uploads/documents/.gitkeep
